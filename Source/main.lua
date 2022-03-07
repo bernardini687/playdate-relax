@@ -2,10 +2,7 @@
 
 local gfx = playdate.graphics
 
--- Lua arrays are 1-indexed but here I find it
--- easier to use a 0-based cursor to cycle through
--- the array elements with the modulo operator.
-local exerciseCursor = 0
+local exerciseCursor = 1
 local exercises = {
     {
         name = "Boxed Breathing",
@@ -25,7 +22,7 @@ local exercises = {
     },
 }
 
-local exercisePropsCursor = 0
+local exercisePropsCursor = 1
 local exerciseProps = {
     "name",
     "info",
@@ -42,23 +39,21 @@ gfx.setColor(gfx.kColorWhite) -- Fill with black.
 gfx.drawText(howToText, 400 - howToTextWidth, 240 - howToTextHeight)
 
 function playdate.update()
-    -- Let's offset the cursors by 1 since Lua arrays are 1-indexed.
-    local currentExercise = exercises[exerciseCursor + 1]
-    local currentExerciseProp = exerciseProps[exercisePropsCursor + 1]
+    local currentExercise = exercises[exerciseCursor]
+    local currentExerciseProp = exerciseProps[exercisePropsCursor]
 
     -- Draw enough black background across the exercise information area,
     -- then draw the current selected information on top of it.
     gfx.fillRect(0, 240 - exerciseTextHeigth, 400 - howToTextWidth, howToTextHeight)
     gfx.drawText(currentExercise[currentExerciseProp], 0, 240 - exerciseTextHeigth)
 
-    -- TODO: The cycling-cursor logic could be abstracted. Does it only need an array and the cursor state?
     if playdate.buttonJustPressed("a") then
-        exerciseCursor += 1
-        exerciseCursor %= #exercises
+        exerciseCursor = exerciseCursor % #exercises + 1
     end
 
     if playdate.buttonJustPressed("b") then
-        exercisePropsCursor += 1
-        exercisePropsCursor %= #exerciseProps
+        exercisePropsCursor = exercisePropsCursor % #exerciseProps + 1
     end
 end
+
+-- from 43019 to 42987
