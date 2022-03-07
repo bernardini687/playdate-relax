@@ -33,10 +33,9 @@ local exerciseProps = {
     "info",
 }
 
-local nextDisplayText = "➡️ / Ⓐ Next"
--- local infoDisplayText = "⬅️ / Ⓑ Info"
-
-local _, textHeight = gfx.getTextSize(nextDisplayText)
+local howToText = "➡️ / Ⓐ Next\n⬅️ / Ⓑ Info"
+local howToTextWidth, howToTextHeight = gfx.getTextSize(howToText)
+local _, exerciseTextHeigth = gfx.getTextSize("Breathing") -- Should cover ascendants and descendants.
 
 playdate.display.setInverted(true)
 gfx.setColor(gfx.kColorWhite) -- But it's black.
@@ -46,9 +45,9 @@ function playdate.update()
     local currentExercise = exercises[exerciseCursor + 1]
     local currentExerciseProp = exerciseProps[exercisePropsCursor + 1]
 
-    gfx.fillRect(0, 0, 400, textHeight)
-    gfx.drawText(currentExercise[currentExerciseProp], 0, 0)
-    gfx.drawTextAligned(nextDisplayText, 400, 0, kTextAlignment.right)
+    gfx.fillRect(0, 240 - exerciseTextHeigth, 400 - howToTextWidth, howToTextHeight)
+    gfx.drawText(currentExercise[currentExerciseProp], 0, 240 - exerciseTextHeigth)
+    gfx.drawText(howToText, 400 - howToTextWidth, 240 - howToTextHeight)
 
     -- The cycling-cursor logic could be abstracted.
     -- Does it only need an array and the cursor state?
