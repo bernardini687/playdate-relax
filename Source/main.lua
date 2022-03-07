@@ -2,6 +2,7 @@
 
 local gfx = playdate.graphics
 
+-- Data.
 local exercises = {
     {
         name = "Boxed Breathing",
@@ -30,21 +31,23 @@ local exerciseProps = {
 local exercisePropsCursor = 1
 local currentExerciseProp = exerciseProps[exercisePropsCursor]
 
-local howToText = "➡️ / Ⓐ Next\n⬅️ / Ⓑ Info"
-local howToTextWidth, howToTextHeight = gfx.getTextSize(howToText)
-local _, exerciseTextHeigth = gfx.getTextSize("Breathing") -- Covers both ascendants and descendants.
-
+-- Colors.
 playdate.display.setInverted(true)
 gfx.setColor(gfx.kColorWhite) -- Fill with black.
 
--- How-to text is fixed.
-gfx.drawText(howToText, 400 - howToTextWidth, 240 - howToTextHeight)
+-- Texts.
+local howToText = "Ⓐ *NEXT*\nⒷ *INFO*"
+local howToTextWidth, howToTextHeight = gfx.getTextSize(howToText)
+local _, exerciseTextHeigth = gfx.getTextSize("Breathing") -- Covers both ascendants and descendants.
+gfx.drawText(howToText, 400 - howToTextWidth, 240 - howToTextHeight) -- How-to text is fixed.
 
 function playdate.update()
     -- Draw enough black background across the exercise information area,
     -- then draw the current selected information on top of it.
     gfx.fillRect(0, 240 - exerciseTextHeigth, 400 - howToTextWidth, howToTextHeight)
     gfx.drawText(currentExercise[currentExerciseProp], 0, 240 - exerciseTextHeigth)
+
+    -- TODO: Breathing animation, look at SingleFileExamples/gridview.lua/animateListviewOpen()
 
     -- Handle Next action.
     if playdate.buttonJustPressed("a") or playdate.buttonJustPressed("right") then
