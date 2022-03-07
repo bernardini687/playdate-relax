@@ -9,30 +9,56 @@ local gfx = playdate.graphics
 ]]
 local exerciseCursor = 0
 local exercises = {
-    "Boxed Breathing",
-    "Boxed Breathing+",
-    "Relaxed Breathing",
-    "Coherent Breathing"
+    {
+        name = "Boxed Breathing",
+        info = "4, 4, 4, 4",
+    },
+    {
+        name = "Boxed Breathing+",
+        info = "4, x, x, x",
+    },
+    {
+        name = "Relaxed Breathing",
+        info = "x, x, x, x",
+    },
+    {
+        name = "Coherent Breathing",
+        info = "y, y, y, y",
+    },
 }
 
-local nextInstruction = "➡️ / Ⓐ Next"
--- local infoInstruction = "⬅️ / Ⓑ Info"
+local exercisePropsCursor = 0
+local exerciseProps = {
+    "name",
+    "info",
+}
 
-local _, textHeight = gfx.getTextSize(nextInstruction)
+local nextDisplayText = "➡️ / Ⓐ Next"
+-- local infoDisplayText = "⬅️ / Ⓑ Info"
+
+local _, textHeight = gfx.getTextSize(nextDisplayText)
 
 playdate.display.setInverted(true)
 gfx.setColor(gfx.kColorWhite) -- But it's black.
 
 function playdate.update()
-    -- Let's offset the cursor by 1 since Lua arrays are 1-indexed.
+    -- Let's offset the cursors by 1 since Lua arrays are 1-indexed.
     local currentExercise = exercises[exerciseCursor + 1]
+    local currentExerciseProp = exerciseProps[exercisePropsCursor + 1]
 
     gfx.fillRect(0, 0, 400, textHeight)
-    gfx.drawText(currentExercise, 0, 0)
-    gfx.drawTextAligned(nextInstruction, 400, 0, kTextAlignment.right)
+    gfx.drawText(currentExercise[currentExerciseProp], 0, 0)
+    gfx.drawTextAligned(nextDisplayText, 400, 0, kTextAlignment.right)
 
+    -- The cycling-cursor logic could be abstracted.
+    -- Does it only need an array and the cursor state?
     if playdate.buttonJustPressed("a") then
         exerciseCursor += 1
         exerciseCursor %= #exercises
+    end
+
+    if playdate.buttonJustPressed("b") then
+        exercisePropsCursor += 1
+        exercisePropsCursor %= #exerciseProps
     end
 end
