@@ -1,6 +1,6 @@
 local ExerciseProps <const> = {
-	"name",
-	"info",
+	'name',
+	'info',
 }
 
 return ExerciseProps
