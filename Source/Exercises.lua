@@ -11,12 +11,12 @@ local Exercises <const> = {
 	},
 	{
 		name = 'Boxed Breathing+',
-		info = '4, 3, 2, 1',
+		info = '4, 3, 5, 2',
 		sequence = {
 			4000,
 			3000,
-			2000,
-			1000
+			5000,
+			2000
 		}
 	},
 	{
