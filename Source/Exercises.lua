@@ -3,40 +3,37 @@ local Exercises <const> = {
 		name = 'Boxed Breathing',
 		info = '4, 4, 4, 4',
 		sequence = {
-			4000,
-			4000,
-			4000,
-			4000
+			{'Breathe in',  4000},
+			{'Hold on',     4000},
+			{'Breathe out', 4000},
+			{'Hold on',     4000}
 		}
 	},
 	{
 		name = 'Boxed Breathing+',
-		info = '4, 3, 5, 2',
+		info = '4, 4, 6, 4',
 		sequence = {
-			4000,
-			3000,
-			5000,
-			2000
-		}
-	},
-	{
-		name = 'Relaxed Breathing',
-		info = '6, 3, 6, 0',
-		sequence = {
-			6000,
-			3000,
-			6000,
-			0
+			{'Breathe in',  4000},
+			{'Hold on',     4000},
+			{'Breathe out', 6000},
+			{'Hold on',     4000}
 		}
 	},
 	{
 		name = 'Coherent Breathing',
-		info = '4, 0, 4, 0',
+		info = '5.5, 5.5',
 		sequence = {
-			4000,
-			0,
-			4000,
-			0
+			{'Breathe in',  5500},
+			{'Breathe out', 5500}
+		}
+	},
+	{
+		name = 'Coherent Breathing',
+		info = '4, 7, 8',
+		sequence = {
+			{'Breathe in',  4000},
+			{'Hold on',     7000},
+			{'Breathe out', 8000}
 		}
 	}
 }

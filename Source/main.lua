@@ -4,7 +4,8 @@ import 'CoreLibs/timer'
 local gfx <const> = playdate.graphics
 local Exercises <const> = import 'Exercises' -- TODO: Figure out how to use imports properly.
 local ExerciseProps <const> = import 'ExerciseProps'
-local mainFont <const> = gfx.font.new('Fonts/Roobert-11-Medium')
+local headerFont <const> = gfx.font.new('Fonts/Roobert-11-Medium')
+local mainFont <const> = gfx.font.new('Fonts/Roobert-20-Medium')
 local howToTextFont <const> = gfx.font.new('Fonts/Roobert-11-Medium-Halved')
 local nextText <const> = 'Ⓐ next'
 local infoText <const> = 'Ⓑ info'
@@ -19,7 +20,7 @@ local function resetTimer()
         timer:remove()
     end
 
-    targetTime = currentExercise.sequence[sequenceCursor]
+    targetTime = currentExercise.sequence[sequenceCursor][2]
     timer = playdate.timer.new(targetTime, 0, targetTime)
 end
 
@@ -32,6 +33,8 @@ local function setup()
     gfx.setFont(howToTextFont)
     howToTextWidth, howToTextHeight = gfx.getTextSize(nextText)
     gfx.setFont(mainFont)
+    _, mainTextHeight = gfx.getTextSize("Hold")
+    gfx.setFont(headerFont)
 
     resetTimer()
 end
@@ -41,12 +44,14 @@ setup()
 function playdate.update()
     -- TODO: make texts into images.
     gfx.clear()
+    gfx.setFont(headerFont)
+    gfx.drawText(math.floor(timer.value / 1000) + 1, 0, 0) -- For debugging.
+    gfx.drawTextAligned(currentExercise[currentExerciseProp], 200, 0, kTextAlignment.center)
+    gfx.setFont(mainFont)
+    gfx.drawTextAligned(currentExercise.sequence[sequenceCursor][1], 200, 120 - (mainTextHeight / 2), kTextAlignment.center)
     gfx.setFont(howToTextFont)
     gfx.drawText(nextText, 400 - howToTextWidth, 240 - howToTextHeight)
     gfx.drawText(infoText, 0, 240 - howToTextHeight)
-    gfx.setFont(mainFont)
-    gfx.drawTextAligned(currentExercise[currentExerciseProp], 200, 0, kTextAlignment.center)
-    gfx.drawText(math.floor(timer.value / 1000) + 1, 0, 0) -- For debugging.
 
     -- Handle `next` action.
     if playdate.buttonJustPressed('a') or playdate.buttonJustPressed('right') then
