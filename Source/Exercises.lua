@@ -28,7 +28,7 @@ local Exercises <const> = {
 		}
 	},
 	{
-		name = 'Coherent Breathing',
+		name = 'Relaxed Breathing',
 		info = '4, 7, 8',
 		sequence = {
 			{'Breathe in',  4000},

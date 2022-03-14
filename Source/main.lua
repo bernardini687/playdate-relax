@@ -28,13 +28,14 @@ local function setup()
     -- Set colours.
     gfx.setBackgroundColor(gfx.kColorBlack)
     gfx.setImageDrawMode(gfx.kDrawModeFillWhite) -- Draw white on black text.
+    gfx.setColor(gfx.kColorWhite)
 
     -- Populate text utility variables.
     gfx.setFont(howToTextFont)
     howToTextWidth, howToTextHeight = gfx.getTextSize(nextText)
     gfx.setFont(mainFont)
-    _, mainTextHeight = gfx.getTextSize("Hold")
     gfx.setFont(headerFont)
+    gfx.setLineWidth(1)
 
     resetTimer()
 end
@@ -42,13 +43,20 @@ end
 setup()
 
 function playdate.update()
+    local instruction = currentExercise.sequence[sequenceCursor][1]
+
     -- TODO: make texts into images.
     gfx.clear()
     gfx.setFont(headerFont)
     gfx.drawText(math.floor(timer.value / 1000) + 1, 0, 0) -- For debugging.
     gfx.drawTextAligned(currentExercise[currentExerciseProp], 200, 0, kTextAlignment.center)
+
     gfx.setFont(mainFont)
-    gfx.drawTextAligned(currentExercise.sequence[sequenceCursor][1], 200, 120 - (mainTextHeight / 2), kTextAlignment.center)
+    local mainTextWidth, mainTextHeight = gfx.getTextSize(instruction)
+    -- TODO: The `width` have to go from 1 to `mainTextWidth` in `timer` time.
+    gfx.drawRect(200 - (mainTextWidth / 2), 120 + (mainTextHeight / 2), mainTextWidth, 3)
+    gfx.drawTextAligned(instruction, 200, 120 - (mainTextHeight / 2), kTextAlignment.center)
+
     gfx.setFont(howToTextFont)
     gfx.drawText(nextText, 400 - howToTextWidth, 240 - howToTextHeight)
     gfx.drawText(infoText, 0, 240 - howToTextHeight)
