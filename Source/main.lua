@@ -1,27 +1,27 @@
 import 'CoreLibs/graphics'
 import 'CoreLibs/timer'
 
-local gfx <const> = playdate.graphics
-local Exercises <const> = import 'Exercises' -- TODO: Figure out how to use imports properly.
+local gfx           <const> = playdate.graphics
+local Exercises     <const> = import 'Exercises' -- TODO: Figure out how to use imports properly.
 local ExerciseProps <const> = import 'ExerciseProps'
-local headerFont <const> = gfx.font.new('Fonts/Roobert-11-Medium')
-local mainFont <const> = gfx.font.new('Fonts/Roobert-20-Medium')
+local headerFont    <const> = gfx.font.new('Fonts/Roobert-11-Medium')
+local mainFont      <const> = gfx.font.new('Fonts/Roobert-20-Medium')
 local howToTextFont <const> = gfx.font.new('Fonts/Roobert-11-Medium-Halved')
-local nextText <const> = 'Ⓐ next'
-local infoText <const> = 'Ⓑ info'
+local nextText      <const> = 'Ⓐ next'
+local infoText      <const> = 'Ⓑ info'
 
-local howToTextWidth, howToTextHeight, timer, targetTime
+local howToTextWidth, howToTextHeight, targetTime, timer, width
 local exercisesCursor, exercisePropsCursor, sequenceCursor = 1, 1, 1
-local currentExercise = Exercises[exercisesCursor]
+local currentExercise     = Exercises[exercisesCursor]
 local currentExerciseProp = ExerciseProps[exercisePropsCursor]
 
 local function resetTimer()
     if timer then
         timer:remove()
     end
-
     targetTime = currentExercise.sequence[sequenceCursor][2]
-    timer = playdate.timer.new(targetTime, 0, targetTime)
+    timer      = playdate.timer.new(targetTime, 0, targetTime)
+    width      = 1
 end
 
 local function setup()
@@ -33,9 +33,6 @@ local function setup()
     -- Populate text utility variables.
     gfx.setFont(howToTextFont)
     howToTextWidth, howToTextHeight = gfx.getTextSize(nextText)
-    gfx.setFont(mainFont)
-    gfx.setFont(headerFont)
-    gfx.setLineWidth(1)
 
     resetTimer()
 end
@@ -43,19 +40,20 @@ end
 setup()
 
 function playdate.update()
-    local instruction = currentExercise.sequence[sequenceCursor][1]
+    local instruction <const> = currentExercise.sequence[sequenceCursor][1]
 
-    -- TODO: make texts into images.
     gfx.clear()
     gfx.setFont(headerFont)
-    gfx.drawText(math.floor(timer.value / 1000) + 1, 0, 0) -- For debugging.
     gfx.drawTextAligned(currentExercise[currentExerciseProp], 200, 0, kTextAlignment.center)
 
+    -- TODO: The content of main text only changes every time we rest the timer, handle all this logic inside `resetTimer`
     gfx.setFont(mainFont)
-    local mainTextWidth, mainTextHeight = gfx.getTextSize(instruction)
-    -- TODO: The `width` have to go from 1 to `mainTextWidth` in `timer` time.
-    gfx.drawRect(200 - (mainTextWidth / 2), 120 + (mainTextHeight / 2), mainTextWidth, 3)
-    gfx.drawTextAligned(instruction, 200, 120 - (mainTextHeight / 2), kTextAlignment.center)
+    local mainTextW, mainTextH <const> = gfx.getTextSize(instruction)
+    local halfTextH            <const> = mainTextH / 2
+    local chunk                <const> = mainTextW / (timer.duration / 33.33333) -- 30 FPS are 33.33333 ms
+
+    gfx.drawRect(200 - (mainTextW / 2), 120 + halfTextH, width, 2)
+    gfx.drawTextAligned(instruction, 200, 120 - halfTextH, kTextAlignment.center)
 
     gfx.setFont(howToTextFont)
     gfx.drawText(nextText, 400 - howToTextWidth, 240 - howToTextHeight)
@@ -72,6 +70,10 @@ function playdate.update()
     if playdate.buttonJustPressed('b') or playdate.buttonJustPressed('left') then
         exercisePropsCursor = exercisePropsCursor % #ExerciseProps + 1
         currentExerciseProp = ExerciseProps[exercisePropsCursor]
+    end
+
+    if width < mainTextW then
+        width += chunk
     end
 
     if timer.value == targetTime then
