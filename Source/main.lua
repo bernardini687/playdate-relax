@@ -3,69 +3,47 @@ import 'CoreLibs/timer'
 
 local gfx           <const> = playdate.graphics
 local Exercises     <const> = import 'exercises' -- TODO: Figure out how to use imports properly.
-local ExerciseProps <const> = import 'exerciseProps'
-local headerFont    <const> = gfx.font.new('Fonts/Roobert-11-Medium')
 local mainFont      <const> = gfx.font.new('Fonts/Roobert-20-Medium')
-local howToTextFont <const> = gfx.font.new('Fonts/Roobert-11-Medium-Halved')
-local nextText      <const> = 'Ⓐ next'
-local infoText      <const> = 'Ⓑ info'
+local secondaryFont <const> = gfx.font.new('Fonts/Roobert-11-Medium-Halved')
 
-local howToTextW, howToTextH, timer, instruction, instructionTextW
-local exercisesCursor, exercisePropsCursor, sequenceCursor = 1, 1, 1
-local currentExercise     = Exercises[exercisesCursor]
-local currentExerciseProp = ExerciseProps[exercisePropsCursor]
+local instruction, instructionTextW, patternTextW, timer
+local exercisesCursor, sequenceCursor = 1, 1
+local currentExercise                 = Exercises[exercisesCursor]
 
 local function resetTimer()
     if timer then
         timer:remove()
     end
-    instruction       = currentExercise.sequence[sequenceCursor][1]
-    local targetTime  = currentExercise.sequence[sequenceCursor][2]
+    instruction    = currentExercise.sequence[sequenceCursor]['instruction']
+    local duration = currentExercise.sequence[sequenceCursor]['duration']
 
-    gfx.setFont(mainFont)
-    instructionTextW, _ = gfx.getTextSize(instruction)
-    timer               = playdate.timer.new(targetTime, 0, instructionTextW)
+    patternTextW     = secondaryFont:getTextWidth(currentExercise['pattern'])
+    instructionTextW = mainFont:getTextWidth(instruction)
+    timer            = playdate.timer.new(duration, 0, instructionTextW)
 end
 
-local function setup()
-    -- Set colours.
-    gfx.setBackgroundColor(gfx.kColorBlack)
-    gfx.setImageDrawMode(gfx.kDrawModeFillWhite) -- Draw white on black text.
-    gfx.setColor(gfx.kColorWhite)
-
-    -- Populate text utility variables.
-    gfx.setFont(howToTextFont)
-    howToTextW, howToTextH = gfx.getTextSize(nextText)
-
-    resetTimer()
-end
-
-setup()
+-- Setup:
+-- Set colours.
+gfx.setBackgroundColor(gfx.kColorBlack)
+gfx.setImageDrawMode(gfx.kDrawModeFillWhite) -- Draw white on black text.
+gfx.setColor(gfx.kColorWhite)
+resetTimer()
 
 function playdate.update()
     gfx.clear()
-    gfx.setFont(headerFont)
-    gfx.drawTextAligned(currentExercise[currentExerciseProp], 200, 0, kTextAlignment.center)
-
     gfx.setFont(mainFont)
-    gfx.drawTextAligned(instruction, 200, 120 - 16, kTextAlignment.center)
-    gfx.drawRect(200 - (instructionTextW / 2), 120 + 16, timer.value, 2)
+    gfx.drawTextAligned(instruction, 200, 93, kTextAlignment.center) -- (120 - 11) - half font height (16)
+    gfx.drawRect(200 - (instructionTextW / 2), 125, timer.value, 2)  -- (120 - 11) + half font height (16)
 
-    gfx.setFont(howToTextFont)
-    gfx.drawText(nextText, 400 - howToTextW, 240 - howToTextH)
-    gfx.drawText(infoText, 0, 240 - howToTextH)
+    gfx.setFont(secondaryFont)
+    gfx.drawText(currentExercise['name'], 0, 218) -- 240 - font height (22)
+    gfx.drawText(currentExercise['pattern'], 400 - patternTextW, 218)
 
-    -- Handle `next` action.
-    if playdate.buttonJustPressed('a') or playdate.buttonJustPressed('right') then
+    if playdate.buttonJustPressed('a') or playdate.buttonJustPressed('b') then
         exercisesCursor = exercisesCursor % #Exercises + 1
         currentExercise = Exercises[exercisesCursor]
         sequenceCursor = 1
         resetTimer()
-    end
-    -- Handle `info` action.
-    if playdate.buttonJustPressed('b') or playdate.buttonJustPressed('left') then
-        exercisePropsCursor = exercisePropsCursor % #ExerciseProps + 1
-        currentExerciseProp = ExerciseProps[exercisePropsCursor]
     end
 
     if timer.timeLeft == 0 then
