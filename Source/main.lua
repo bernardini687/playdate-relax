@@ -5,7 +5,7 @@ import 'soundManager'
 local gfx           <const> = playdate.graphics
 local Exercises     <const> = import 'exercises' -- TODO: Figure out how to use imports properly.
 local mainFont      <const> = gfx.font.new('Fonts/Roobert-20-Medium')
-local secondaryFont <const> = gfx.font.new('Fonts/Roobert-11-Medium-Halved')
+local secondaryFont <const> = gfx.font.new('Fonts/Asheville-Sans-14-Light')
 
 local instruction, instructionTextW, patternTextW, timer
 local exercisesCursor, sequenceCursor = 1, 1
@@ -34,13 +34,14 @@ resetTimer()
 
 function playdate.update()
     gfx.clear()
-    gfx.setFont(mainFont)
-    gfx.drawTextAligned(instruction, 200, 100, kTextAlignment.center) -- 120 - 4 (offset) - 16 (half font height)
-    gfx.drawRect(200 - (instructionTextW / 2), 128, timer.value, 2)
 
     gfx.setFont(secondaryFont)
-    gfx.drawText(currentExercise['name'], 0, 218) -- 240 - 22 (font height)
-    gfx.drawText(currentExercise['pattern'], 400 - patternTextW, 218)
+    gfx.drawText(currentExercise['name'], 0, 0)
+    gfx.drawText(currentExercise['pattern'], 400 - patternTextW, 0)
+
+    gfx.setFont(mainFont)
+    gfx.drawTextAligned(instruction, 200, 104, kTextAlignment.center) -- 120 - 16 (half font height)
+    gfx.drawRect(200 - (instructionTextW / 2), 132, timer.value, 2)
 
     if playdate.buttonJustPressed('a') or playdate.buttonJustPressed('b') then
         exercisesCursor = exercisesCursor % #Exercises + 1
