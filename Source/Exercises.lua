@@ -1,6 +1,6 @@
 local Exercises <const> = {
 	{
-		name     = 'Boxed Breathing',
+		name     = 'Boxed breathing',
 		pattern  = '4, 4, 4, 4',
 		sequence = {
 			{
@@ -22,7 +22,7 @@ local Exercises <const> = {
 		}
 	},
 	{
-		name     = 'Boxed Breathing+',
+		name     = 'Boxed breathing+',
 		pattern  = '4, 4, 6, 4',
 		sequence = {
 			{
@@ -44,7 +44,7 @@ local Exercises <const> = {
 		}
 	},
 	{
-		name     = 'Coherent Breathing',
+		name     = 'Coherent breathing',
 		pattern  = '5.5, 5.5',
 		sequence = {
 			{
@@ -58,7 +58,7 @@ local Exercises <const> = {
 		}
 	},
 	{
-		name    = 'Relaxed Breathing',
+		name    = 'Relaxed breathing',
 		pattern = '4, 7, 8',
 		sequence = {
 			{

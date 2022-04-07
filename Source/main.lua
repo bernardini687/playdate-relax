@@ -41,7 +41,8 @@ function playdate.update()
 
     gfx.setFont(mainFont)
     gfx.drawTextAligned(instruction, 200, 104, kTextAlignment.center) -- 120 - 16 (half font height)
-    gfx.drawRect(200 - (instructionTextW / 2), 132, timer.value, 2)
+    gfx.drawRoundRect(200 - (instructionTextW / 2), 140, instructionTextW, 4, 4)
+    gfx.fillRoundRect(200 - (instructionTextW / 2), 140, timer.value, 4, 4)
 
     if playdate.buttonJustPressed('a') or playdate.buttonJustPressed('b') then
         exercisesCursor = exercisesCursor % #Exercises + 1
