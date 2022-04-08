@@ -9,7 +9,7 @@ SoundManager.kBreatheOut = 'Breathe out'
 local sounds = {}
 
 for _, v in pairs(SoundManager) do
-	sounds[v] = snd.sampleplayer.new('Sounds/' .. v)
+	sounds[v] = snd.sampleplayer.new('Sounds/'..v)
 end
 
 SoundManager.sounds = sounds

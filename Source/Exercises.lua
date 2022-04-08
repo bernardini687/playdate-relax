@@ -1,4 +1,4 @@
-local Exercises <const> = {
+Exercises = {
 	{
 		name     = 'Boxed breathing',
 		pattern  = '4, 4, 4, 4',
@@ -76,5 +76,3 @@ local Exercises <const> = {
 		}
 	}
 }
-
-return Exercises
