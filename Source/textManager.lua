@@ -2,17 +2,14 @@ import 'CoreLibs/sprites'
 
 local gfx <const> = playdate.graphics
 
-
 class('TextManager').extends(gfx.sprite)
 
-TextManager.fonts    = fonts
-
-function TextManager:init(x, y, w, font)
+-- @aligment can be 'left' or 'right', defaults to 'left'
+function TextManager:init(x, y, w, font, alignment)
 	TextManager.super.init(self)
 
-	-- sefl:setScale only affects sprites with images, should i set an image here?
-
-	self.font = gfx.font.new('Fonts/'..font)
+	self.font      = gfx.font.new('Fonts/'..font)
+	self.alignment = alignment or 'left'
 
 	self:setSize(w, self.font:getHeight())
 	self:setCenter(0, 0) -- upper left corner of the sprite, default is at the center (0.5, 0.5)
@@ -25,13 +22,19 @@ function TextManager:setContent(content)
 end
 
 function TextManager:draw()
-	gfx.pushContext() -- gfx.pushContext(self.image)
+	local x, y = 0, 0
+
+	if self.alignment == 'right' then
+		x = self.width - self.font:getTextWidth(self.content)
+	end
+
+	gfx.pushContext()
 		gfx.setFont(self.font)
-		gfx.drawText(self.content, 0, 0)
+		gfx.drawText(self.content, x, y)
 	gfx.popContext()
 end
 
 -- Usage:
--- div = TextManager(x, y, w, 'Roobert-20-Medium')
--- div:setContent('hello world')
--- div:add()
+-- txt = TextManager(x, y, w, 'font_name', [alignment])
+-- txt:setContent('hello world')
+-- txt:add()

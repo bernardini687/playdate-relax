@@ -2,9 +2,9 @@ local snd <const> = playdate.sound
 
 SoundManager = {}
 
-SoundManager.kBreatheIn  = 'Breathe in'
-SoundManager.kHoldOn     = 'Hold on'
-SoundManager.kBreatheOut = 'Breathe out'
+SoundManager.kIn   = 'Breathe in'
+SoundManager.kHold = 'Hold on'
+SoundManager.kOut  = 'Breathe out'
 
 local sounds = {}
 

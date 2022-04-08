@@ -1,37 +1,16 @@
-import 'textManager'
-import 'exercises'
+import 'app'
 
-local secondaryFontName <const> = 'Asheville-Sans-14-Light'
+App:refreshLabels()
 
-local exercisesCursor = 1
-local currentExercise = Exercises[exercisesCursor]
-
-local function refreshLabels()
-	exerciseLabel:setContent(currentExercise['name'])
-	patternLabel:setContent(currentExercise['pattern'])
-end
-
-exerciseLabel = TextManager(0, 0, 200, secondaryFontName)
-patternLabel  = TextManager(200, 0, 200, secondaryFontName)
-exerciseLabel:add()
-patternLabel:add()
-refreshLabels()
-
--- invert screen
+-- TODO invert screen
 function playdate.update()
 	playdate.graphics.sprite.update()
 end
 
-local function handleAction()
-	exercisesCursor = exercisesCursor % #Exercises + 1
-	currentExercise = Exercises[exercisesCursor]
-	refreshLabels()
-end
-
 function playdate.AButtonDown()
-	handleAction()
+	App:changeTask()
 end
 
 function playdate.BButtonDown()
-	handleAction()
+	App:changeTask()
 end
