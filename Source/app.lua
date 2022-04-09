@@ -1,6 +1,8 @@
 import 'CoreLibs/timer'
 
 import 'dynamicText'
+import 'emptyBar'
+import 'progressBar'
 import 'soundManager'
 import 'tasks'
 
@@ -11,6 +13,8 @@ local majorFontName <const> = 'Roobert-24-Medium'
 local taskLabel     <const> = DynamicText(0, 0, minorFontName, 'left')
 local infoLabel     <const> = DynamicText(400, 0, minorFontName, 'right')
 local instruction   <const> = DynamicText(200, 120, majorFontName, 'center')
+local emptyBar      <const> = EmptyBar(115, 143, 170, 4)
+local progressBar   <const> = ProgressBar(115, 143, 0, 4) -- TODO set integers with meaningful vars
 
 App = {}
 
@@ -32,7 +36,7 @@ local function resetTimer()
 	local i = App.actualTask.instructions[App.instructionCursor]
 	instruction:setContent(i.name)
 	SoundManager:play(i.name)
-	App.timer = timer.new(i.time, 0, instruction.width)
+	App.timer = timer.new(i.time, 0, 170)
 end
 
 local function changeInstruction()
@@ -42,16 +46,19 @@ end
 function App:setup()
 	refreshLabels()
 	resetTimer()
+	playdate.display.setInverted(true)
 end
 
 function App:run()
-	sprite.update()
-	timer.updateTimers()
+	progressBar:setWidth(self.timer.value)
 
 	if self.timer.timeLeft == 0 then
 		changeInstruction()
 		resetTimer()
 	end
+
+	sprite.update()
+	timer.updateTimers()
 end
 
 function App:changeTask()
@@ -65,3 +72,5 @@ end
 taskLabel:add()
 infoLabel:add()
 instruction:add()
+emptyBar:add()
+progressBar:add()

@@ -2,7 +2,6 @@ import 'app'
 
 App:setup()
 
--- TODO invert screen
 function playdate.update()
 	App:run()
 end
