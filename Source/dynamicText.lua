@@ -4,6 +4,18 @@ local gfx <const> = playdate.graphics
 
 class('DynamicText').extends(gfx.sprite)
 
+-- @aligment can be 'left', 'center' or 'right'
+function DynamicText:init(x, y, font, alignment)
+	DynamicText.super.init(self)
+
+	self.initX     = x
+	self.font      = gfx.font.new('Fonts/'..font)
+	self.alignment = alignment
+
+	self:moveTo(self.initX, y)
+	self:setContent()
+end
+
 function DynamicText:setContent(content)
 	self.content = content or 'test'
 
@@ -20,18 +32,6 @@ function DynamicText:setContent(content)
 		-- reposition the sprite according to the x value initially given
 		self:moveTo(self.initX - self.width, 0)
 	end
-end
-
--- @aligment can be 'left', 'center' or 'right'
-function DynamicText:init(x, y, font, alignment)
-	DynamicText.super.init(self)
-
-	self.initX     = x
-	self.font      = gfx.font.new('Fonts/'..font)
-	self.alignment = alignment
-
-	self:moveTo(self.initX, y)
-	self:setContent()
 end
 
 function DynamicText:draw()

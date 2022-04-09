@@ -14,6 +14,6 @@ end
 
 SoundManager.sounds = sounds
 
-function SoundManager:playSound(name)
+function SoundManager:play(name)
 	self.sounds[name]:play(1)
 end

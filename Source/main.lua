@@ -1,11 +1,12 @@
 import 'app'
 
+-- TODO App:setup()
 App:refreshLabels()
+App:resetTimer()
 
 -- TODO invert screen
 function playdate.update()
-	playdate.graphics.sprite.update()
-	-- App:checkTimer()
+	App:run()
 end
 
 function playdate.AButtonDown()
