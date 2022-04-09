@@ -35,10 +35,9 @@ local function resetTimer()
 	App.timer = timer.new(i.time, 0, instruction.width)
 end
 
--- local function changeInstruction()
--- 	App.instructionCursor = App.instructionCursor % #App.actualTask.instructions + 1
--- 	-- reset timer
--- end
+local function changeInstruction()
+	App.instructionCursor = App.instructionCursor % #App.actualTask.instructions + 1
+end
 
 function App:setup()
 	refreshLabels()
@@ -48,14 +47,19 @@ end
 function App:run()
 	sprite.update()
 	timer.updateTimers()
-	-- TODO check timer
+
+	if self.timer.timeLeft == 0 then
+		changeInstruction()
+		resetTimer()
+	end
 end
 
 function App:changeTask()
 	self.taskCursor = self.taskCursor % #tasks + 1
 	self.actualTask = tasks[self.taskCursor]
-	-- TODO rest timer
+
 	refreshLabels()
+	resetTimer()
 end
 
 taskLabel:add()
