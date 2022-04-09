@@ -1,8 +1,6 @@
 import 'app'
 
--- TODO App:setup()
-App:refreshLabels()
-App:resetTimer()
+App:setup()
 
 -- TODO invert screen
 function playdate.update()

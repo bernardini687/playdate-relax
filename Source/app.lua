@@ -1,6 +1,7 @@
 import 'CoreLibs/timer'
 
 import 'dynamicText'
+import 'soundManager'
 import 'tasks'
 
 local sprite        <const> = playdate.graphics.sprite
@@ -18,38 +19,43 @@ App.instructionCursor = 1
 App.actualTask        = tasks[App.taskCursor]
 App.timer             = nil
 
+local function refreshLabels()
+	taskLabel:setContent(App.actualTask['name'])
+	infoLabel:setContent(App.actualTask['info'])
+end
+
+local function resetTimer()
+	if App.timer then
+		App.timer:remove()
+	end
+
+	local i = App.actualTask.instructions[App.instructionCursor]
+	instruction:setContent(i.name)
+	SoundManager:play(i.name)
+	App.timer = timer.new(i.time, 0, instruction.width)
+end
+
+-- local function changeInstruction()
+-- 	App.instructionCursor = App.instructionCursor % #App.actualTask.instructions + 1
+-- 	-- reset timer
+-- end
+
+function App:setup()
+	refreshLabels()
+	resetTimer()
+end
+
 function App:run()
 	sprite.update()
 	timer.updateTimers()
 	-- TODO check timer
 end
 
-function App:resetTimer()
-	if self.timer then
-		self.timer:remove()
-	end
-
-	local i = self.actualTask.instructions[self.instructionCursor]
-	instruction:setContent(i.name)
-	-- SoundManager:play(i.name)
-	self.timer = timer.new(i.time, 0, instruction.width)
-end
-
--- function App:changeInstruction()
--- 	self.instructionCursor = self.instructionCursor % #self.actualTask.instructions + 1
--- 	-- reset timer
--- end
-
 function App:changeTask()
 	self.taskCursor = self.taskCursor % #tasks + 1
 	self.actualTask = tasks[self.taskCursor]
-	-- rest timer
-	self:refreshLabels()
-end
-
-function App:refreshLabels()
-	taskLabel:setContent(self.actualTask['name'])
-	infoLabel:setContent(self.actualTask['info'])
+	-- TODO rest timer
+	refreshLabels()
 end
 
 taskLabel:add()

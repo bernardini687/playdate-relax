@@ -2,6 +2,14 @@ import 'CoreLibs/sprites'
 
 local gfx <const> = playdate.graphics
 
+--[[
+	Usage:
+
+		txt = DynamicText(x, y, 'font_name', alignment)
+		txt:setContent('hello world')
+		txt:add()
+		playdate.graphics.sprite.update()
+]]
 class('DynamicText').extends(gfx.sprite)
 
 -- @aligment can be 'left', 'center' or 'right'
@@ -40,8 +48,3 @@ function DynamicText:draw()
 		gfx.drawText(self.content, 0, 0)
 	gfx.popContext()
 end
-
--- Usage:
--- txt = DynamicText(x, y, 'font_name', alignment)
--- txt:setContent('hello world')
--- txt:add()

@@ -1,15 +1,13 @@
-local snd <const> = playdate.sound
-
 SoundManager = {}
 
 SoundManager.kIn   = 'Breathe in'
 SoundManager.kHold = 'Hold on'
 SoundManager.kOut  = 'Breathe out'
 
-local sounds = {}
+local sounds <const> = {}
 
 for _, v in pairs(SoundManager) do
-	sounds[v] = snd.sampleplayer.new('Sounds/'..v)
+	sounds[v] = playdate.sound.sampleplayer.new('Sounds/'..v)
 end
 
 SoundManager.sounds = sounds
