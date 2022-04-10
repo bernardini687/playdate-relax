@@ -7,7 +7,6 @@ local gfx <const> = playdate.graphics
 
 		bar = ProgressBar(x, y, w, h)
 		bar:setWidth(w)
-		bar:add()
 		playdate.graphics.sprite.update()
 ]]
 class('ProgressBar').extends(gfx.sprite)
@@ -18,6 +17,7 @@ function ProgressBar:init(x, y, w, h)
 	self:setCenter(0, 0)
 	self:setSize(w, h)
 	self:moveTo(x, y)
+	self:add()
 end
 
 function ProgressBar:setWidth(w)

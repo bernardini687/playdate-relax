@@ -7,7 +7,6 @@ local gfx <const> = playdate.graphics
 
 		txt = DynamicText(x, y, 'font_name', alignment)
 		txt:setContent('hello world')
-		txt:add()
 		playdate.graphics.sprite.update()
 ]]
 class('DynamicText').extends(gfx.sprite)
@@ -22,6 +21,7 @@ function DynamicText:init(x, y, font, alignment)
 
 	self:moveTo(self.initX, y)
 	self:setContent()
+	self:add()
 end
 
 function DynamicText:setContent(content)

@@ -18,4 +18,5 @@ function EmptyBar:init(x, y, w, h)
 	self:setCenter(0, 0)
 	self:setSize(w, h)
 	self:moveTo(x, y)
+	self:add()
 end

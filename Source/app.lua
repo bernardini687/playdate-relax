@@ -3,8 +3,8 @@ import 'CoreLibs/timer'
 import 'dynamicText'
 import 'emptyBar'
 import 'progressBar'
-import 'soundManager'
 import 'tasks'
+import 'soundManager'
 
 local sprite        <const> = playdate.graphics.sprite
 local timer         <const> = playdate.timer
@@ -13,8 +13,8 @@ local majorFontName <const> = 'Roobert-24-Medium'
 local taskLabel     <const> = DynamicText(0, 0, minorFontName, 'left')
 local infoLabel     <const> = DynamicText(400, 0, minorFontName, 'right')
 local instruction   <const> = DynamicText(200, 120, majorFontName, 'center')
-local emptyBar      <const> = EmptyBar(115, 143, 170, 4)
-local progressBar   <const> = ProgressBar(115, 143, 0, 4) -- TODO set integers with meaningful vars
+local emptyBar      <const> = EmptyBar(115, 120 + 22, 170, 4)
+local progressBar   <const> = ProgressBar(115, 120 + 22, 0, 4) -- TODO set integers with meaningful vars
 
 App = {}
 
@@ -62,15 +62,10 @@ function App:run()
 end
 
 function App:changeTask()
-	self.taskCursor = self.taskCursor % #tasks + 1
-	self.actualTask = tasks[self.taskCursor]
+	self.instructionCursor = 1
+	self.taskCursor        = self.taskCursor % #tasks + 1
+	self.actualTask        = tasks[self.taskCursor]
 
 	refreshLabels()
 	resetTimer()
 end
-
-taskLabel:add()
-infoLabel:add()
-instruction:add()
-emptyBar:add()
-progressBar:add()
