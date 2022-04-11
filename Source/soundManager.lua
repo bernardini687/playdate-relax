@@ -4,7 +4,7 @@ SoundManager = {}
 
 SoundManager.kIn   = 'Breathe in'
 SoundManager.kHold = 'Hold on'
-SoundManager.kOut  = 'Breathe out'
+SoundManager.kOut  = 'Exhale'
 
 local sounds <const> = {}
 

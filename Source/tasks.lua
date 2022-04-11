@@ -12,7 +12,7 @@ tasks = {
 				time = 4000
 			},
 			{
-				name = 'Breathe out',
+				name = 'Exhale',
 				time = 4000
 			},
 			{
@@ -34,7 +34,7 @@ tasks = {
 				time = 4000
 			},
 			{
-				name = 'Breathe out',
+				name = 'Exhale',
 				time = 6000
 			},
 			{
@@ -52,7 +52,7 @@ tasks = {
 				time = 5500
 			},
 			{
-				name = 'Breathe out',
+				name = 'Exhale',
 				time = 5500
 			}
 		}
@@ -70,7 +70,7 @@ tasks = {
 				time = 7000
 			},
 			{
-				name = 'Breathe out',
+				name = 'Exhale',
 				time = 8000
 			}
 		}
