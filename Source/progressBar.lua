@@ -1,7 +1,5 @@
 import 'CoreLibs/sprites'
 
-local gfx <const> = playdate.graphics
-
 --[[
 	Usage:
 
@@ -9,7 +7,7 @@ local gfx <const> = playdate.graphics
 		bar:setWidth(w)
 		playdate.graphics.sprite.update()
 ]]
-class('ProgressBar').extends(gfx.sprite)
+class('ProgressBar').extends(sprite)
 
 function ProgressBar:init(x, y, w, h)
 	ProgressBar.super.init(self)

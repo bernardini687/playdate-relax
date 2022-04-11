@@ -1,3 +1,6 @@
+gfx    = playdate.graphics
+sprite = gfx.sprite
+
 import 'app'
 
 App:setup()

@@ -1,7 +1,5 @@
 import 'CoreLibs/sprites'
 
-local gfx <const> = playdate.graphics
-
 --[[
 	Usage:
 
@@ -9,7 +7,7 @@ local gfx <const> = playdate.graphics
 		txt:setContent('hello world')
 		playdate.graphics.sprite.update()
 ]]
-class('DynamicText').extends(gfx.sprite)
+class('DynamicText').extends(sprite)
 
 -- @aligment can be 'left', 'center' or 'right'
 function DynamicText:init(x, y, font, alignment)

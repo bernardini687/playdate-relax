@@ -1,11 +1,15 @@
 import 'CoreLibs/sprites'
 
-local gfx <const> = playdate.graphics
+class('BackgroundBar').extends(sprite)
 
-class('EmptyBar').extends(gfx.sprite)
+--[[
+	Usage:
 
-function EmptyBar:init(x, y, w, h)
-	EmptyBar.super.init(self)
+		bar = BackgroundBar(x, y, w, h)
+		playdate.graphics.sprite.update()
+]]
+function BackgroundBar:init(x, y, w, h)
+	BackgroundBar.super.init(self)
 
 	local image = gfx.image.new(w, h)
 

@@ -1,20 +1,21 @@
 import 'CoreLibs/timer'
 
+import 'backgroundBar'
 import 'dynamicText'
-import 'emptyBar'
 import 'progressBar'
-import 'tasks'
 import 'soundManager'
+import 'tasks'
 
-local sprite        <const> = playdate.graphics.sprite
+local barMaxWidth, barRadius <const> = 170, 4
+
 local timer         <const> = playdate.timer
 local minorFontName <const> = 'Roobert-11-Medium'
 local majorFontName <const> = 'Roobert-24-Medium'
 local taskLabel     <const> = DynamicText(0, 0, minorFontName, 'left')
 local infoLabel     <const> = DynamicText(400, 0, minorFontName, 'right')
 local instruction   <const> = DynamicText(200, 120, majorFontName, 'center')
-local emptyBar      <const> = EmptyBar(115, 120 + 22, 170, 4)
-local progressBar   <const> = ProgressBar(115, 120 + 22, 0, 4) -- TODO set integers with meaningful vars
+local backgroundBar <const> = BackgroundBar(115, 120 + 22, barMaxWidth, barRadius)
+local progressBar   <const> = ProgressBar(115, 120 + 22, 0, barRadius)
 
 App = {}
 
@@ -22,6 +23,8 @@ App.taskCursor        = 1
 App.instructionCursor = 1
 App.actualTask        = tasks[App.taskCursor]
 App.timer             = nil
+
+-- private functions:
 
 local function refreshLabels()
 	taskLabel:setContent(App.actualTask['name'])
@@ -36,12 +39,14 @@ local function resetTimer()
 	local i = App.actualTask.instructions[App.instructionCursor]
 	instruction:setContent(i.name)
 	SoundManager:play(i.name)
-	App.timer = timer.new(i.time, 0, 170)
+	App.timer = timer.new(i.time, 0, barMaxWidth)
 end
 
 local function changeInstruction()
 	App.instructionCursor = App.instructionCursor % #App.actualTask.instructions + 1
 end
+
+-- public methods:
 
 function App:setup()
 	refreshLabels()
