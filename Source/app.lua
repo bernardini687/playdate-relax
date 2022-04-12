@@ -8,6 +8,7 @@ import 'tasks'
 
 local barMaxWidth, barRadius <const> = 170, 4
 
+local store         <const> = playdate.datastore.read()
 local timer         <const> = playdate.timer
 local minorFontName <const> = 'Roobert-11-Medium'
 local majorFontName <const> = 'Roobert-24-Medium'
@@ -19,7 +20,7 @@ local progressBar   <const> = ProgressBar(115, 120 + 22, 0, barRadius)
 
 App = {}
 
-App.taskCursor        = 1
+App.taskCursor        = store and store.taskCursor or 1
 App.instructionCursor = 1
 App.actualTask        = tasks[App.taskCursor]
 App.timer             = nil
@@ -73,4 +74,8 @@ function App:changeTask()
 
 	refreshLabels()
 	resetTimer()
+end
+
+function App:write()
+	playdate.datastore.write({ taskCursor = self.taskCursor })
 end

@@ -44,6 +44,34 @@ tasks = {
 		}
 	},
 	{
+		name = 'Extended breathing',
+		info = '3, 6',
+		instructions = {
+			{
+				name = 'Breathe in',
+				time = 3000
+			},
+			{
+				name = 'Exhale',
+				time = 6000
+			}
+		}
+	},
+	{
+		name = 'Extended breathing+',
+		info = '3, 8',
+		instructions = {
+			{
+				name = 'Breathe in',
+				time = 3000
+			},
+			{
+				name = 'Exhale',
+				time = 8000
+			}
+		}
+	},
+	{
 		name = 'Coherent breathing',
 		info = '5.5, 5.5',
 		instructions = {
